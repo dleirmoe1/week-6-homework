@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>GifTastic</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<!--buttons-->
+<body>
+  <div id="buttons">
+    <button data-animal="Dog">
+      Dog
+    </button>
+    <button data-animal="Cat">
+      Cat
+    </button>
+    <button data-animal="Turtle">
+      Turtle
+    </button>
+    <button data-animal="Fox">
+      Fox
+    </button>
+    </button>
+    <button data-animal="Shark">
+      Shark
+    </button>
+    <button data-animal="Seal">
+      Seal
+    </button>
+    </button>
+    <button data-animal="Giraffe">
+      Giraffe
+    </button>
+    <button data-animal="Monkey">
+      Monkey
+    </button>
+    </button>
+    <button data-animal="Dolphin">
+      Dolphin
+    </button>
+    <button data-animal="Bunny">
+      Bunny
+    </button>
+
+  </div>
+
+<!-- Write in section -->
+<div style="float:right; margin-top:90px;">
+ <h4>Add an Animal</h4>
+    <form id="gif-form">
+        <label for="gif-input"></label>
+        <input type="text" value="" id="gif-input"><br><br>
+        <!--Creates the submit button-->
+        <input type="submit" name="Button" class="btn btn-success" id="theButton" style="margin-left:8px">
+    </form>
+</div>
+
+  <div id="gifs-appear-here">
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    $("button").on("click", function() {
+      var person = $(this).attr("data-animal");
+      var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+        person + "&api_key=W8Zu9Eb5MKJ7UcAkUvECRC2Tx5v4o4Px";
+
+      $.ajax({
+          url: queryURL,
+          method: "GET"
+        })
+        .done(function(response) {
+          var results = response.data;
+
+          for (var i = 0; i < results.length; i++) {
+            var gifDiv = $("<div class='item'>");
+
+            var rating = results[i].rating;
+
+            var p = $("<p>").text("Rating: " + rating);
+
+            var animalImage = $("<img>");
+            animalImage.attr("src", results[i].images.fixed_height.url);
+
+            gifDiv.prepend(p);
+            gifDiv.prepend(animalImage);
+
+            $("#gifs-appear-here").prepend(gifDiv);
+          }
+        });
+    });
+  </script>
+</body>
+
+</html>
